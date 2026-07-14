@@ -39,7 +39,7 @@ function ProductPage() {
   const [qty, setQty] = useState(1);
 
   const catLabels = product.categories
-    .map((c) => CATEGORIES.find((x) => x.id === c)?.label)
+    .map((c: string) => CATEGORIES.find((x) => x.id === c)?.label)
     .filter(Boolean)
     .join(", ");
 
