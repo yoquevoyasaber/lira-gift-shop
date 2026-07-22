@@ -3,6 +3,7 @@ import { useState } from "react";
 import { Minus, Plus, ShoppingCart } from "lucide-react";
 import { AppShell } from "@/components/AppShell";
 import { CATEGORIES, getProduct, PRODUCTS } from "@/lib/products";
+import { useCart } from "@/lib/cart";
 
 export const Route = createFileRoute("/producto/$id")({
   loader: ({ params }) => {
@@ -37,6 +38,8 @@ export const Route = createFileRoute("/producto/$id")({
 function ProductPage() {
   const { product } = Route.useLoaderData();
   const [qty, setQty] = useState(1);
+  const [added, setAdded] = useState(false);
+  const { add } = useCart();
 
   const catLabels = product.categories
     .map((c: string) => CATEGORIES.find((x) => x.id === c)?.label)
@@ -47,6 +50,12 @@ function ProductPage() {
     (p) => p.id !== product.id && p.categories.some((c) => product.categories.includes(c)),
   ).slice(0, 4);
 
+  const handleAdd = () => {
+    add(product.id, qty);
+    setAdded(true);
+    setTimeout(() => setAdded(false), 1500);
+  };
+
   return (
     <AppShell>
       <div className="bg-primary/10 py-2 text-center text-sm font-semibold tracking-wide text-primary">
@@ -54,11 +63,7 @@ function ProductPage() {
       </div>
 
       <div className="p-3">
-        <img
-          src={product.image}
-          alt={product.name}
-          className="w-full rounded-lg object-cover"
-        />
+        <img src={product.image} alt={product.name} className="w-full rounded-lg object-cover" />
 
         <div className="mt-3 flex items-center justify-between">
           <h1 className="text-lg font-bold uppercase text-foreground">{product.name}</h1>
@@ -79,7 +84,7 @@ function ProductPage() {
           <button
             onClick={() => setQty((q) => Math.max(1, q - 1))}
             aria-label="Menos"
-            className="flex h-10 w-10 items-center justify-center rounded-md border border-border text-lg"
+            className="flex h-10 w-10 items-center justify-center rounded-md border border-border"
           >
             <Minus className="h-4 w-4" />
           </button>
@@ -87,12 +92,15 @@ function ProductPage() {
           <button
             onClick={() => setQty((q) => q + 1)}
             aria-label="Más"
-            className="flex h-10 w-10 items-center justify-center rounded-md border border-border text-lg"
+            className="flex h-10 w-10 items-center justify-center rounded-md border border-border"
           >
             <Plus className="h-4 w-4" />
           </button>
-          <button className="ml-2 flex items-center gap-2 rounded-md bg-primary px-5 py-2 font-semibold text-primary-foreground shadow">
-            <ShoppingCart className="h-5 w-5" /> Comprar
+          <button
+            onClick={handleAdd}
+            className="ml-2 flex items-center gap-2 rounded-md bg-primary px-5 py-2 font-semibold text-primary-foreground shadow"
+          >
+            <ShoppingCart className="h-5 w-5" /> {added ? "¡Añadido!" : "Comprar"}
           </button>
         </div>
       </div>
