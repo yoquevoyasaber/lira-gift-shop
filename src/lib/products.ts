@@ -1,5 +1,4 @@
-import logo from "@/assets/IMG-20260711-WA0032_1.jpg.asset.json";
-import p1 from "@/assets/IMG-20260714-WA0003.jpg.asset.json";
+import logo from "@/assets/lira-logo.asset.json";
 import p2 from "@/assets/IMG-20260713-WA0033.jpg.asset.json";
 import p3 from "@/assets/IMG-20260710-WA0011.jpg.asset.json";
 import p4 from "@/assets/IMG-20260703-WA0003_1.jpg.asset.json";
@@ -39,15 +38,6 @@ export type Product = {
 };
 
 export const PRODUCTS: Product[] = [
-  {
-    id: "abrazo-floral",
-    name: "Abrazo Floral",
-    price: 18.0,
-    image: p1.url,
-    description:
-      "Caja de regalo personalizable de dos niveles. Opcionalmente incluye llavero con personaje en pixel art y dedicatoria musical.",
-    categories: ["mama", "parejas", "bday"],
-  },
   {
     id: "dulce-sorpresa",
     name: "Dulce Sorpresa Lira",
