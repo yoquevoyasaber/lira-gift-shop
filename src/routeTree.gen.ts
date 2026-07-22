@@ -13,6 +13,7 @@ import { Route as SugerenciasRouteImport } from './routes/sugerencias'
 import { Route as SobreLiraRouteImport } from './routes/sobre-lira'
 import { Route as ContactoRouteImport } from './routes/contacto'
 import { Route as ConfiguracionRouteImport } from './routes/configuracion'
+import { Route as ChatRouteImport } from './routes/chat'
 import { Route as CarritoRouteImport } from './routes/carrito'
 import { Route as AyudaRouteImport } from './routes/ayuda'
 import { Route as AuthRouteImport } from './routes/auth'
@@ -37,6 +38,11 @@ const ContactoRoute = ContactoRouteImport.update({
 const ConfiguracionRoute = ConfiguracionRouteImport.update({
   id: '/configuracion',
   path: '/configuracion',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ChatRoute = ChatRouteImport.update({
+  id: '/chat',
+  path: '/chat',
   getParentRoute: () => rootRouteImport,
 } as any)
 const CarritoRoute = CarritoRouteImport.update({
@@ -70,6 +76,7 @@ export interface FileRoutesByFullPath {
   '/auth': typeof AuthRoute
   '/ayuda': typeof AyudaRoute
   '/carrito': typeof CarritoRoute
+  '/chat': typeof ChatRoute
   '/configuracion': typeof ConfiguracionRoute
   '/contacto': typeof ContactoRoute
   '/sobre-lira': typeof SobreLiraRoute
@@ -81,6 +88,7 @@ export interface FileRoutesByTo {
   '/auth': typeof AuthRoute
   '/ayuda': typeof AyudaRoute
   '/carrito': typeof CarritoRoute
+  '/chat': typeof ChatRoute
   '/configuracion': typeof ConfiguracionRoute
   '/contacto': typeof ContactoRoute
   '/sobre-lira': typeof SobreLiraRoute
@@ -93,6 +101,7 @@ export interface FileRoutesById {
   '/auth': typeof AuthRoute
   '/ayuda': typeof AyudaRoute
   '/carrito': typeof CarritoRoute
+  '/chat': typeof ChatRoute
   '/configuracion': typeof ConfiguracionRoute
   '/contacto': typeof ContactoRoute
   '/sobre-lira': typeof SobreLiraRoute
@@ -106,6 +115,7 @@ export interface FileRouteTypes {
     | '/auth'
     | '/ayuda'
     | '/carrito'
+    | '/chat'
     | '/configuracion'
     | '/contacto'
     | '/sobre-lira'
@@ -117,6 +127,7 @@ export interface FileRouteTypes {
     | '/auth'
     | '/ayuda'
     | '/carrito'
+    | '/chat'
     | '/configuracion'
     | '/contacto'
     | '/sobre-lira'
@@ -128,6 +139,7 @@ export interface FileRouteTypes {
     | '/auth'
     | '/ayuda'
     | '/carrito'
+    | '/chat'
     | '/configuracion'
     | '/contacto'
     | '/sobre-lira'
@@ -140,6 +152,7 @@ export interface RootRouteChildren {
   AuthRoute: typeof AuthRoute
   AyudaRoute: typeof AyudaRoute
   CarritoRoute: typeof CarritoRoute
+  ChatRoute: typeof ChatRoute
   ConfiguracionRoute: typeof ConfiguracionRoute
   ContactoRoute: typeof ContactoRoute
   SobreLiraRoute: typeof SobreLiraRoute
@@ -175,6 +188,13 @@ declare module '@tanstack/react-router' {
       path: '/configuracion'
       fullPath: '/configuracion'
       preLoaderRoute: typeof ConfiguracionRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/chat': {
+      id: '/chat'
+      path: '/chat'
+      fullPath: '/chat'
+      preLoaderRoute: typeof ChatRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/carrito': {
@@ -220,6 +240,7 @@ const rootRouteChildren: RootRouteChildren = {
   AuthRoute: AuthRoute,
   AyudaRoute: AyudaRoute,
   CarritoRoute: CarritoRoute,
+  ChatRoute: ChatRoute,
   ConfiguracionRoute: ConfiguracionRoute,
   ContactoRoute: ContactoRoute,
   SobreLiraRoute: SobreLiraRoute,
