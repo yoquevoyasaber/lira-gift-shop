@@ -1,23 +1,35 @@
+import { useState, type ReactNode } from "react";
 import { Link, useRouterState } from "@tanstack/react-router";
-import { Menu, User, Home, MessageCircle, ShoppingCart } from "lucide-react";
+import { Menu, User, Home, MessageCircle, ShoppingCart, X } from "lucide-react";
 import { LOGO_URL } from "@/lib/products";
-import type { ReactNode } from "react";
+import { useCart } from "@/lib/cart";
+
+const MENU = [
+  { to: "/sobre-lira", label: "Sobre Lira" },
+  { to: "/contacto", label: "Contacto" },
+  { to: "/configuracion", label: "Configuración" },
+  { to: "/ayuda", label: "Ayuda" },
+  { to: "/sugerencias", label: "Sugerencias" },
+] as const;
 
 export function AppShell({ children }: { children: ReactNode }) {
   const pathname = useRouterState({ select: (s) => s.location.pathname });
+  const [menuOpen, setMenuOpen] = useState(false);
+  const { totalCount } = useCart();
+
   return (
     <div className="min-h-screen bg-background flex flex-col">
       <header className="sticky top-0 z-40 bg-primary text-primary-foreground shadow-md">
         <div className="mx-auto flex max-w-md items-center justify-between px-4 py-3">
-          <button aria-label="Menu" className="p-1">
+          <button aria-label="Menu" className="p-1" onClick={() => setMenuOpen(true)}>
             <Menu className="h-6 w-6" />
           </button>
           <Link to="/" className="flex items-center gap-2">
-            <img src={LOGO_URL} alt="Lira" className="h-9 w-9 rounded-lg" />
+            <img src={LOGO_URL} alt="Lira" className="h-10 w-10 rounded-lg" />
           </Link>
-          <button aria-label="Cuenta" className="p-1">
+          <Link to="/auth" aria-label="Cuenta" className="p-1">
             <User className="h-6 w-6" />
-          </button>
+          </Link>
         </div>
       </header>
 
@@ -28,14 +40,47 @@ export function AppShell({ children }: { children: ReactNode }) {
           <Link to="/" aria-label="Inicio" className={pathname === "/" ? "opacity-100" : "opacity-80"}>
             <Home className="h-7 w-7" />
           </Link>
-          <button aria-label="Mensajes" className="opacity-80">
+          <Link to="/chat" aria-label="Asistente IA" className={pathname === "/chat" ? "opacity-100" : "opacity-80"}>
             <MessageCircle className="h-7 w-7" />
-          </button>
-          <button aria-label="Carrito" className="opacity-80">
+          </Link>
+          <Link to="/carrito" aria-label="Carrito" className={`relative ${pathname === "/carrito" ? "opacity-100" : "opacity-80"}`}>
             <ShoppingCart className="h-7 w-7" />
-          </button>
+            {totalCount > 0 && (
+              <span className="absolute -right-2 -top-1 flex h-5 min-w-5 items-center justify-center rounded-full bg-background px-1 text-xs font-bold text-primary">
+                {totalCount}
+              </span>
+            )}
+          </Link>
         </div>
       </nav>
+
+      {menuOpen && (
+        <div
+          className="fixed inset-0 z-50 flex bg-primary/95 backdrop-blur-sm"
+          onClick={() => setMenuOpen(false)}
+        >
+          <button
+            aria-label="Cerrar menú"
+            className="absolute right-4 top-4 p-2 text-primary-foreground"
+            onClick={() => setMenuOpen(false)}
+          >
+            <X className="h-7 w-7" />
+          </button>
+          <div className="m-auto flex flex-col items-center gap-6 text-center">
+            <img src={LOGO_URL} alt="Lira" className="mb-4 h-20 w-20 rounded-2xl shadow-lg" />
+            {MENU.map((m) => (
+              <Link
+                key={m.to}
+                to={m.to}
+                onClick={() => setMenuOpen(false)}
+                className="text-2xl font-semibold text-primary-foreground hover:underline"
+              >
+                {m.label}
+              </Link>
+            ))}
+          </div>
+        </div>
+      )}
     </div>
   );
 }
