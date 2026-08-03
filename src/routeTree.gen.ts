@@ -20,6 +20,7 @@ import { Route as AyudaRouteImport } from './routes/ayuda'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ProductoIdRouteImport } from './routes/producto.$id'
+import { Route as PersonalizarIdRouteImport } from './routes/personalizar.$id'
 
 const SugerenciasRoute = SugerenciasRouteImport.update({
   id: '/sugerencias',
@@ -76,6 +77,11 @@ const ProductoIdRoute = ProductoIdRouteImport.update({
   path: '/producto/$id',
   getParentRoute: () => rootRouteImport,
 } as any)
+const PersonalizarIdRoute = PersonalizarIdRouteImport.update({
+  id: '/personalizar/$id',
+  path: '/personalizar/$id',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -88,6 +94,7 @@ export interface FileRoutesByFullPath {
   '/contacto': typeof ContactoRoute
   '/sobre-lira': typeof SobreLiraRoute
   '/sugerencias': typeof SugerenciasRoute
+  '/personalizar/$id': typeof PersonalizarIdRoute
   '/producto/$id': typeof ProductoIdRoute
 }
 export interface FileRoutesByTo {
@@ -101,6 +108,7 @@ export interface FileRoutesByTo {
   '/contacto': typeof ContactoRoute
   '/sobre-lira': typeof SobreLiraRoute
   '/sugerencias': typeof SugerenciasRoute
+  '/personalizar/$id': typeof PersonalizarIdRoute
   '/producto/$id': typeof ProductoIdRoute
 }
 export interface FileRoutesById {
@@ -115,6 +123,7 @@ export interface FileRoutesById {
   '/contacto': typeof ContactoRoute
   '/sobre-lira': typeof SobreLiraRoute
   '/sugerencias': typeof SugerenciasRoute
+  '/personalizar/$id': typeof PersonalizarIdRoute
   '/producto/$id': typeof ProductoIdRoute
 }
 export interface FileRouteTypes {
@@ -130,6 +139,7 @@ export interface FileRouteTypes {
     | '/contacto'
     | '/sobre-lira'
     | '/sugerencias'
+    | '/personalizar/$id'
     | '/producto/$id'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -143,6 +153,7 @@ export interface FileRouteTypes {
     | '/contacto'
     | '/sobre-lira'
     | '/sugerencias'
+    | '/personalizar/$id'
     | '/producto/$id'
   id:
     | '__root__'
@@ -156,6 +167,7 @@ export interface FileRouteTypes {
     | '/contacto'
     | '/sobre-lira'
     | '/sugerencias'
+    | '/personalizar/$id'
     | '/producto/$id'
   fileRoutesById: FileRoutesById
 }
@@ -170,6 +182,7 @@ export interface RootRouteChildren {
   ContactoRoute: typeof ContactoRoute
   SobreLiraRoute: typeof SobreLiraRoute
   SugerenciasRoute: typeof SugerenciasRoute
+  PersonalizarIdRoute: typeof PersonalizarIdRoute
   ProductoIdRoute: typeof ProductoIdRoute
 }
 
@@ -252,6 +265,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ProductoIdRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/personalizar/$id': {
+      id: '/personalizar/$id'
+      path: '/personalizar/$id'
+      fullPath: '/personalizar/$id'
+      preLoaderRoute: typeof PersonalizarIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -266,6 +286,7 @@ const rootRouteChildren: RootRouteChildren = {
   ContactoRoute: ContactoRoute,
   SobreLiraRoute: SobreLiraRoute,
   SugerenciasRoute: SugerenciasRoute,
+  PersonalizarIdRoute: PersonalizarIdRoute,
   ProductoIdRoute: ProductoIdRoute,
 }
 export const routeTree = rootRouteImport

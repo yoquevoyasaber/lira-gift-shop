@@ -214,7 +214,7 @@ function Personalizar() {
         id: designId,
         user_id: session.user?.id ?? null,
         product_id: product.id,
-        data: d as unknown as Record<string, unknown>,
+        data: JSON.parse(JSON.stringify(d)),
       });
       if (error) throw error;
       add(product.id, 1, designId);
