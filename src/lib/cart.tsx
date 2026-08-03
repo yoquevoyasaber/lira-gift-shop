@@ -1,19 +1,23 @@
 import { createContext, useContext, useEffect, useState, type ReactNode } from "react";
 import { PRODUCTS, type Product } from "./products";
 
-type CartItem = { id: string; qty: number };
+export type CartItem = { id: string; qty: number; designId?: string };
+export type DetailedItem = CartItem & { uid: string; product: Product };
+
 type CartCtx = {
   items: CartItem[];
-  add: (id: string, qty?: number) => void;
-  remove: (id: string) => void;
+  add: (id: string, qty?: number, designId?: string) => void;
+  remove: (uid: string) => void;
   clear: () => void;
   totalCount: number;
   totalPrice: number;
-  detailed: (CartItem & { product: Product })[];
+  detailed: DetailedItem[];
 };
 
 const Ctx = createContext<CartCtx | null>(null);
 const KEY = "lira-cart-v1";
+
+const uidOf = (i: CartItem) => (i.designId ? `${i.id}|${i.designId}` : i.id);
 
 export function CartProvider({ children }: { children: ReactNode }) {
   const [items, setItems] = useState<CartItem[]>([]);
@@ -35,21 +39,23 @@ export function CartProvider({ children }: { children: ReactNode }) {
     }
   }, [items]);
 
-  const add = (id: string, qty = 1) =>
+  const add = (id: string, qty = 1, designId?: string) =>
     setItems((prev) => {
-      const found = prev.find((i) => i.id === id);
-      if (found) return prev.map((i) => (i.id === id ? { ...i, qty: i.qty + qty } : i));
-      return [...prev, { id, qty }];
+      const next = { id, qty, designId };
+      const found = prev.find((i) => uidOf(i) === uidOf(next));
+      if (found)
+        return prev.map((i) => (uidOf(i) === uidOf(next) ? { ...i, qty: i.qty + qty } : i));
+      return [...prev, next];
     });
-  const remove = (id: string) => setItems((prev) => prev.filter((i) => i.id !== id));
+  const remove = (uid: string) => setItems((prev) => prev.filter((i) => uidOf(i) !== uid));
   const clear = () => setItems([]);
 
   const detailed = items
     .map((i) => {
       const product = PRODUCTS.find((p) => p.id === i.id);
-      return product ? { ...i, product } : null;
+      return product ? { ...i, uid: uidOf(i), product } : null;
     })
-    .filter(Boolean) as (CartItem & { product: Product })[];
+    .filter(Boolean) as DetailedItem[];
 
   const totalCount = detailed.reduce((s, i) => s + i.qty, 0);
   const totalPrice = detailed.reduce((s, i) => s + i.qty * i.product.price, 0);
