@@ -3,6 +3,7 @@ import { useState } from "react";
 import { ShoppingCart } from "lucide-react";
 import { AppShell } from "@/components/AppShell";
 import { Carousel } from "@/components/Carousel";
+import { ProductImage } from "@/components/ProductImage";
 import { CATEGORIES, getByCategory, type CategoryId } from "@/lib/products";
 
 export const Route = createFileRoute("/")({
@@ -56,10 +57,10 @@ function Index() {
         {items.map((p) => (
           <div
             key={p.id}
-            className="overflow-hidden rounded-lg border border-border bg-card shadow-sm"
+            className="overflow-hidden rounded-xl border border-border bg-card shadow-sm"
           >
             <Link to="/producto/$id" params={{ id: p.id }}>
-              <img src={p.image} alt={p.name} className="h-36 w-full bg-secondary object-contain" />
+              <ProductImage src={p.image} alt={p.name} rounded="rounded-none" className="aspect-square w-full" />
             </Link>
             <div className="p-2">
               <Link

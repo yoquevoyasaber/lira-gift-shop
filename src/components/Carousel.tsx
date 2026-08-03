@@ -22,7 +22,7 @@ export function Carousel() {
             key={p.id}
             to="/producto/$id"
             params={{ id: p.id }}
-            className="relative flex h-72 w-full flex-shrink-0 items-center justify-center bg-secondary"
+            className="relative flex h-80 w-full flex-shrink-0 items-center justify-center bg-secondary"
           >
             {/* fondo difuminado para rellenar sin recortar el producto */}
             <img

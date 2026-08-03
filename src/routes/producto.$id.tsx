@@ -4,6 +4,7 @@ import { Minus, Plus, ShoppingCart } from "lucide-react";
 import { AppShell } from "@/components/AppShell";
 import { CATEGORIES, getProduct, PRODUCTS } from "@/lib/products";
 import { useCart } from "@/lib/cart";
+import { ProductImage } from "@/components/ProductImage";
 
 export const Route = createFileRoute("/producto/$id")({
   loader: ({ params }) => {
@@ -63,7 +64,7 @@ function ProductPage() {
       </div>
 
       <div className="p-3">
-        <img src={product.image} alt={product.name} className="max-h-80 w-full rounded-lg bg-secondary object-contain" />
+        <ProductImage src={product.image} alt={product.name} className="aspect-square w-full" imgClassName="p-4" />
 
         <div className="mt-3 flex items-center justify-between">
           <h1 className="text-lg font-bold uppercase text-foreground">{product.name}</h1>
@@ -96,12 +97,13 @@ function ProductPage() {
           >
             <Plus className="h-4 w-4" />
           </button>
-          <button
-            onClick={handleAdd}
+          <Link
+            to="/personalizar/$id"
+            params={{ id: product.id }}
             className="ml-2 flex items-center gap-2 rounded-md bg-primary px-5 py-2 font-semibold text-primary-foreground shadow"
           >
-            <ShoppingCart className="h-5 w-5" /> {added ? "¡Añadido!" : "Comprar"}
-          </button>
+            <ShoppingCart className="h-5 w-5" /> Personalizar
+          </Link>
         </div>
       </div>
 
@@ -117,7 +119,7 @@ function ProductPage() {
             params={{ id: p.id }}
             className="overflow-hidden rounded-lg border border-border bg-card shadow-sm"
           >
-            <img src={p.image} alt={p.name} className="h-32 w-full bg-secondary object-contain" />
+            <ProductImage src={p.image} alt={p.name} rounded="rounded-none" className="aspect-square w-full" />
             <div className="p-2">
               <div className="text-xs font-semibold">{p.name}</div>
               <div className="text-xs font-bold text-primary">${p.price.toFixed(2)}</div>
