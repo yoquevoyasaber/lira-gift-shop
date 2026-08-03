@@ -3,7 +3,6 @@ import { useState } from "react";
 import { Minus, Plus, ShoppingCart } from "lucide-react";
 import { AppShell } from "@/components/AppShell";
 import { CATEGORIES, getProduct, PRODUCTS } from "@/lib/products";
-import { useCart } from "@/lib/cart";
 import { ProductImage } from "@/components/ProductImage";
 
 export const Route = createFileRoute("/producto/$id")({
@@ -39,8 +38,6 @@ export const Route = createFileRoute("/producto/$id")({
 function ProductPage() {
   const { product } = Route.useLoaderData();
   const [qty, setQty] = useState(1);
-  const [added, setAdded] = useState(false);
-  const { add } = useCart();
 
   const catLabels = product.categories
     .map((c: string) => CATEGORIES.find((x) => x.id === c)?.label)
@@ -50,12 +47,6 @@ function ProductPage() {
   const similar = PRODUCTS.filter(
     (p) => p.id !== product.id && p.categories.some((c) => product.categories.includes(c)),
   ).slice(0, 4);
-
-  const handleAdd = () => {
-    add(product.id, qty);
-    setAdded(true);
-    setTimeout(() => setAdded(false), 1500);
-  };
 
   return (
     <AppShell>
