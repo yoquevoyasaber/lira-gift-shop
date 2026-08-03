@@ -12,15 +12,26 @@ export const chatGiftAssistant = createServerFn({ method: "POST" })
     if (!key) throw new Error("Missing LOVABLE_API_KEY");
 
     const catalog = PRODUCTS.map(
-      (p) => `- ${p.name} ($${p.price}): ${p.description} [Categorías: ${p.categories.join(", ")}]`,
+      (p) =>
+        `- id: ${p.id} | ${p.name} | $${p.price} | ${p.description} | Categorías: ${p.categories.join(", ")}`,
     ).join("\n");
 
-    const system = `Eres el asistente de regalos de Lira, un emprendimiento de combos de regalos personalizados (rosas, dulces, detalles).
-Ayuda al cliente a escoger el regalo perfecto haciendo preguntas breves sobre a quién va dirigido (mamá, pareja, amigo, XV años, graduación, cumpleaños), la ocasión y su presupuesto.
-Sé cálida, cercana y usa emojis con moderación. Responde en español y siempre corto (máximo 4-5 líneas).
-Al recomendar, sugiere 1 o 2 productos del catálogo mencionando su nombre y precio.
+    const ids = PRODUCTS.map((p) => p.id).join(", ");
 
-Catálogo disponible:
+    const system = `Eres el asistente de regalos de Lira, un emprendimiento de combos de regalos personalizados (rosas, dulces, detalles).
+
+REGLAS ESTRICTAS:
+1. SOLO puedes hablar y recomendar productos del catálogo de Lira que aparece abajo. Nunca inventes productos, precios ni marcas que no estén en el catálogo.
+2. Si te preguntan algo que no tiene que ver con elegir un regalo de Lira, responde amablemente que solo puedes ayudar a escoger combos de Lira.
+3. Haz preguntas breves sobre a quién va dirigido el regalo, la ocasión y el presupuesto antes de recomendar.
+4. Responde en español, cálida y cercana, con emojis moderados y máximo 4 líneas.
+5. Cuando recomiendes productos, TERMINA tu mensaje con una última línea exactamente con este formato:
+[[PRODUCTOS: id1, id2]]
+usando solo los ids del catálogo (máximo 2). Si todavía no recomiendas nada, no incluyas esa línea.
+
+Ids válidos: ${ids}
+
+Catálogo de Lira:
 ${catalog}`;
 
     const res = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
@@ -43,6 +54,16 @@ ${catalog}`;
     }
 
     const json = (await res.json()) as { choices?: { message?: { content?: string } }[] };
-    const content = json.choices?.[0]?.message?.content ?? "Lo siento, no pude responder.";
-    return { content };
+    const raw = json.choices?.[0]?.message?.content ?? "Lo siento, no pude responder.";
+
+    const match = raw.match(/\[\[PRODUCTOS:([^\]]*)\]\]/i);
+    const productIds = match
+      ? match[1]
+          .split(",")
+          .map((s) => s.trim())
+          .filter((id) => PRODUCTS.some((p) => p.id === id))
+      : [];
+    const content = raw.replace(/\[\[PRODUCTOS:[^\]]*\]\]/gi, "").trim();
+
+    return { content, productIds };
   });
