@@ -63,7 +63,7 @@ function ProductPage() {
       </div>
 
       <div className="p-3">
-        <img src={product.image} alt={product.name} className="w-full rounded-lg object-cover" />
+        <img src={product.image} alt={product.name} className="max-h-80 w-full rounded-lg bg-secondary object-contain" />
 
         <div className="mt-3 flex items-center justify-between">
           <h1 className="text-lg font-bold uppercase text-foreground">{product.name}</h1>
@@ -117,7 +117,7 @@ function ProductPage() {
             params={{ id: p.id }}
             className="overflow-hidden rounded-lg border border-border bg-card shadow-sm"
           >
-            <img src={p.image} alt={p.name} className="h-32 w-full object-cover" />
+            <img src={p.image} alt={p.name} className="h-32 w-full bg-secondary object-contain" />
             <div className="p-2">
               <div className="text-xs font-semibold">{p.name}</div>
               <div className="text-xs font-bold text-primary">${p.price.toFixed(2)}</div>

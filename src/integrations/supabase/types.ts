@@ -14,7 +14,113 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      order_items: {
+        Row: {
+          created_at: string
+          id: string
+          order_id: string
+          product_id: string
+          product_name: string
+          qty: number
+          unit_price: number
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          order_id: string
+          product_id: string
+          product_name: string
+          qty: number
+          unit_price: number
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          order_id?: string
+          product_id?: string
+          product_name?: string
+          qty?: number
+          unit_price?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "order_items_order_id_fkey"
+            columns: ["order_id"]
+            isOneToOne: false
+            referencedRelation: "orders"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      orders: {
+        Row: {
+          address: string
+          created_at: string
+          full_name: string
+          id: string
+          notes: string
+          phone: string
+          receipt_path: string | null
+          status: string
+          total: number
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          address?: string
+          created_at?: string
+          full_name?: string
+          id?: string
+          notes?: string
+          phone?: string
+          receipt_path?: string | null
+          status?: string
+          total?: number
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          address?: string
+          created_at?: string
+          full_name?: string
+          id?: string
+          notes?: string
+          phone?: string
+          receipt_path?: string | null
+          status?: string
+          total?: number
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      profiles: {
+        Row: {
+          address: string
+          created_at: string
+          full_name: string
+          id: string
+          phone: string
+          updated_at: string
+        }
+        Insert: {
+          address?: string
+          created_at?: string
+          full_name?: string
+          id: string
+          phone?: string
+          updated_at?: string
+        }
+        Update: {
+          address?: string
+          created_at?: string
+          full_name?: string
+          id?: string
+          phone?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never

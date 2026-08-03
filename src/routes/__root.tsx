@@ -13,6 +13,7 @@ import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 import { CartProvider } from "@/lib/cart";
 import { SettingsProvider } from "@/lib/settings";
+import { AuthProvider } from "@/lib/auth";
 
 function NotFoundComponent() {
   return (
@@ -121,9 +122,11 @@ function RootComponent() {
   return (
     <QueryClientProvider client={queryClient}>
       <SettingsProvider>
-        <CartProvider>
-          <Outlet />
-        </CartProvider>
+        <AuthProvider>
+          <CartProvider>
+            <Outlet />
+          </CartProvider>
+        </AuthProvider>
       </SettingsProvider>
     </QueryClientProvider>
   );

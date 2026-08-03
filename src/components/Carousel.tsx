@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { Link } from "@tanstack/react-router";
 import { PRODUCTS } from "@/lib/products";
 
 export function Carousel() {
@@ -17,12 +18,29 @@ export function Carousel() {
         style={{ transform: `translateX(-${idx * 100}%)` }}
       >
         {slides.map((p) => (
-          <img
+          <Link
             key={p.id}
-            src={p.image}
-            alt={p.name}
-            className="h-64 w-full flex-shrink-0 object-cover"
-          />
+            to="/producto/$id"
+            params={{ id: p.id }}
+            className="relative flex h-72 w-full flex-shrink-0 items-center justify-center bg-secondary"
+          >
+            {/* fondo difuminado para rellenar sin recortar el producto */}
+            <img
+              src={p.image}
+              alt=""
+              aria-hidden
+              className="absolute inset-0 h-full w-full scale-110 object-cover opacity-30 blur-xl"
+            />
+            <img
+              src={p.image}
+              alt={p.name}
+              className="relative h-full w-full object-contain p-3"
+            />
+            <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-background/90 to-transparent px-4 pb-7 pt-8 text-center">
+              <div className="text-sm font-bold text-foreground">{p.name}</div>
+              <div className="text-sm font-bold text-primary">${p.price.toFixed(2)}</div>
+            </div>
+          </Link>
         ))}
       </div>
       <div className="absolute bottom-2 left-0 right-0 flex justify-center gap-1.5">

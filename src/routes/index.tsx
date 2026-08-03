@@ -59,7 +59,7 @@ function Index() {
             className="overflow-hidden rounded-lg border border-border bg-card shadow-sm"
           >
             <Link to="/producto/$id" params={{ id: p.id }}>
-              <img src={p.image} alt={p.name} className="h-36 w-full object-cover" />
+              <img src={p.image} alt={p.name} className="h-36 w-full bg-secondary object-contain" />
             </Link>
             <div className="p-2">
               <Link

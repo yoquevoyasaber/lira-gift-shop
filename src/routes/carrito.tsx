@@ -36,7 +36,7 @@ function Carrito() {
           <div className="space-y-3">
             {detailed.map((i) => (
               <div key={i.id} className="flex gap-3 rounded-lg border border-border bg-card p-2 shadow-sm">
-                <img src={i.product.image} alt={i.product.name} className="h-20 w-20 rounded-md object-cover" />
+                <img src={i.product.image} alt={i.product.name} className="h-20 w-20 rounded-md bg-secondary object-contain" />
                 <div className="flex flex-1 flex-col justify-between">
                   <div>
                     <div className="text-sm font-semibold text-foreground">{i.product.name}</div>
@@ -70,9 +70,12 @@ function Carrito() {
             </div>
           </div>
 
-          <button className="mt-4 w-full rounded-lg bg-primary py-3 font-semibold text-primary-foreground">
+          <Link
+            to="/checkout"
+            className="mt-4 block w-full rounded-lg bg-primary py-3 text-center font-semibold text-primary-foreground"
+          >
             Finalizar compra
-          </button>
+          </Link>
           <button onClick={clear} className="mt-2 w-full py-2 text-sm text-muted-foreground underline">
             Vaciar carrito
           </button>
