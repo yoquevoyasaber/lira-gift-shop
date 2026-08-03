@@ -114,6 +114,25 @@ function Checkout() {
     }
   };
 
+  const payTest = async () => {
+    if (!orderId) return;
+    setBusy(true);
+    setErr("");
+    try {
+      await new Promise((r) => setTimeout(r, 1400));
+      const { error } = await supabase
+        .from("orders")
+        .update({ status: "paid_test" })
+        .eq("id", orderId);
+      if (error) throw error;
+      setStep("done");
+    } catch (e) {
+      setErr(e instanceof Error ? e.message : "No se pudo procesar el pago de prueba");
+    } finally {
+      setBusy(false);
+    }
+  };
+
   const uploadReceipt = async (file: File) => {
     if (!orderId) return;
     setBusy(true);
@@ -203,6 +222,9 @@ function Checkout() {
 
             <div className="rounded-lg border border-border bg-card p-4 text-sm">
               <div className="mb-2 font-bold text-foreground">Datos para la transferencia</div>
+              <div className="mb-2 rounded-md bg-primary/10 p-2 text-xs font-semibold text-primary">
+                MODO DE PRUEBA · ningún cobro real se procesa
+              </div>
               <Row label="Banco" value={PAYMENT_INFO.bankName} />
               <Row label="Tipo" value={PAYMENT_INFO.accountType} />
               <Row label="Número" value={PAYMENT_INFO.accountNumber} />
@@ -217,6 +239,14 @@ function Checkout() {
                 {copied ? "Copiado" : "Copiar número de cuenta"}
               </button>
             </div>
+
+            <button
+              onClick={() => void payTest()}
+              disabled={busy}
+              className="w-full rounded-lg bg-primary py-3 font-semibold text-primary-foreground disabled:opacity-60"
+            >
+              {busy ? "Procesando pago…" : "Pagar ahora (pago de prueba)"}
+            </button>
 
             <label className="flex cursor-pointer flex-col items-center gap-2 rounded-lg border-2 border-dashed border-primary/50 p-6 text-center">
               <Upload className="h-8 w-8 text-primary" />

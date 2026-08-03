@@ -2,6 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { Trash2, ShoppingBag } from "lucide-react";
 import { AppShell } from "@/components/AppShell";
 import { useCart } from "@/lib/cart";
+import { ProductImage } from "@/components/ProductImage";
 
 export const Route = createFileRoute("/carrito")({
   head: () => ({ meta: [{ title: "Carrito — Lira" }] }),
@@ -35,8 +36,8 @@ function Carrito() {
         <div className="p-3">
           <div className="space-y-3">
             {detailed.map((i) => (
-              <div key={i.id} className="flex gap-3 rounded-lg border border-border bg-card p-2 shadow-sm">
-                <img src={i.product.image} alt={i.product.name} className="h-20 w-20 rounded-md bg-secondary object-contain" />
+              <div key={i.uid} className="flex gap-3 rounded-lg border border-border bg-card p-2 shadow-sm">
+                <ProductImage src={i.product.image} alt={i.product.name} rounded="rounded-lg" className="h-20 w-20 shrink-0" />
                 <div className="flex flex-1 flex-col justify-between">
                   <div>
                     <div className="text-sm font-semibold text-foreground">{i.product.name}</div>
@@ -47,7 +48,7 @@ function Carrito() {
                       ${(i.product.price * i.qty).toFixed(2)}
                     </span>
                     <button
-                      onClick={() => remove(i.id)}
+                      onClick={() => remove(i.uid)}
                       aria-label="Eliminar"
                       className="rounded-md p-1.5 text-destructive hover:bg-destructive/10"
                     >
