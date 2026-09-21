@@ -1,6 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { Instagram, Facebook, Phone, Mail, MessageCircle } from "lucide-react";
 import { AppShell } from "@/components/AppShell";
+import { PAYMENT_INFO, whatsappLink } from "@/lib/payment";
 
 export const Route = createFileRoute("/contacto")({
   head: () => ({ meta: [{ title: "Contacto — Lira" }] }),
@@ -10,9 +11,24 @@ export const Route = createFileRoute("/contacto")({
 const CONTACTS = [
   { icon: Instagram, label: "Instagram", value: "@lira.regalos", href: "https://instagram.com/lira.regalos" },
   { icon: Facebook, label: "Facebook", value: "Lira Regalos", href: "https://facebook.com/lira.regalos" },
-  { icon: MessageCircle, label: "WhatsApp", value: "+00 000 000 000", href: "https://wa.me/00000000000" },
-  { icon: Phone, label: "Teléfono", value: "+00 000 000 000", href: "tel:+00000000000" },
-  { icon: Mail, label: "Correo", value: "hola@lira.com", href: "mailto:hola@lira.com" },
+  {
+    icon: MessageCircle,
+    label: "WhatsApp",
+    value: PAYMENT_INFO.whatsappPretty,
+    href: whatsappLink("¡Hola Lira! Quiero información sobre sus combos de regalo 🌸"),
+  },
+  {
+    icon: Phone,
+    label: "Teléfono",
+    value: PAYMENT_INFO.whatsappPretty,
+    href: `tel:+${PAYMENT_INFO.whatsapp}`,
+  },
+  {
+    icon: Mail,
+    label: "Correo",
+    value: PAYMENT_INFO.email,
+    href: `mailto:${PAYMENT_INFO.email}`,
+  },
 ];
 
 function Contacto() {
