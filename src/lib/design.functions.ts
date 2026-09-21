@@ -83,8 +83,8 @@ export const toPixelArt = createServerFn({ method: "POST" })
             content: [
               {
                 type: "text",
-                text: "Convierte a esta persona en un retrato estilo pixel art de 16 bits, busto y cabeza, colores suaves y limpios, fondo blanco liso, conservando peinado, color de piel y ropa. Sin texto ni marcos.",
-              },
+                text:
+                  "Redibuja a esta persona como un RETRATO ORIGINAL EN PIXEL ART estilo avatar coreano/anime de 32x32 a 48x48 píxeles, como los iconos de perfil hechos a mano. Reglas estrictas: (1) NO pixeles la foto ni apliques un filtro de mosaico: vuelve a dibujar la ilustración desde cero con píxeles grandes, nítidos y alineados a una cuadrícula. (2) Paleta limitada de 16 a 24 colores planos, con sombreado por bloques (cell shading) y bordes definidos, sin degradados ni desenfoque ni antialiasing. (3) Estilo lindo y estilizado: ojos grandes expresivos, cabello por mechones, rostro suave, busto y cabeza en tres cuartos. (4) Conserva el peinado, color de cabello, tono de piel, lentes, accesorios y color de ropa de la persona. (5) Fondo simple: un círculo claro detrás del personaje con algunas estrellitas o destellos pixelados. (6) Sin texto, sin marcas de agua, sin marcos. Resultado cuadrado."
               { type: "image_url", image_url: { url: data.image } },
             ],
           },
