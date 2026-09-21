@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as SugerenciasRouteImport } from './routes/sugerencias'
 import { Route as SobreLiraRouteImport } from './routes/sobre-lira'
+import { Route as PerfilRouteImport } from './routes/perfil'
 import { Route as ContactoRouteImport } from './routes/contacto'
 import { Route as ConfiguracionRouteImport } from './routes/configuracion'
 import { Route as CheckoutRouteImport } from './routes/checkout'
@@ -31,6 +32,11 @@ const SugerenciasRoute = SugerenciasRouteImport.update({
 const SobreLiraRoute = SobreLiraRouteImport.update({
   id: '/sobre-lira',
   path: '/sobre-lira',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PerfilRoute = PerfilRouteImport.update({
+  id: '/perfil',
+  path: '/perfil',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ContactoRoute = ContactoRouteImport.update({
@@ -98,6 +104,7 @@ export interface FileRoutesByFullPath {
   '/checkout': typeof CheckoutRoute
   '/configuracion': typeof ConfiguracionRoute
   '/contacto': typeof ContactoRoute
+  '/perfil': typeof PerfilRoute
   '/sobre-lira': typeof SobreLiraRoute
   '/sugerencias': typeof SugerenciasRoute
   '/m/$id': typeof MIdRoute
@@ -113,6 +120,7 @@ export interface FileRoutesByTo {
   '/checkout': typeof CheckoutRoute
   '/configuracion': typeof ConfiguracionRoute
   '/contacto': typeof ContactoRoute
+  '/perfil': typeof PerfilRoute
   '/sobre-lira': typeof SobreLiraRoute
   '/sugerencias': typeof SugerenciasRoute
   '/m/$id': typeof MIdRoute
@@ -129,6 +137,7 @@ export interface FileRoutesById {
   '/checkout': typeof CheckoutRoute
   '/configuracion': typeof ConfiguracionRoute
   '/contacto': typeof ContactoRoute
+  '/perfil': typeof PerfilRoute
   '/sobre-lira': typeof SobreLiraRoute
   '/sugerencias': typeof SugerenciasRoute
   '/m/$id': typeof MIdRoute
@@ -146,6 +155,7 @@ export interface FileRouteTypes {
     | '/checkout'
     | '/configuracion'
     | '/contacto'
+    | '/perfil'
     | '/sobre-lira'
     | '/sugerencias'
     | '/m/$id'
@@ -161,6 +171,7 @@ export interface FileRouteTypes {
     | '/checkout'
     | '/configuracion'
     | '/contacto'
+    | '/perfil'
     | '/sobre-lira'
     | '/sugerencias'
     | '/m/$id'
@@ -176,6 +187,7 @@ export interface FileRouteTypes {
     | '/checkout'
     | '/configuracion'
     | '/contacto'
+    | '/perfil'
     | '/sobre-lira'
     | '/sugerencias'
     | '/m/$id'
@@ -192,6 +204,7 @@ export interface RootRouteChildren {
   CheckoutRoute: typeof CheckoutRoute
   ConfiguracionRoute: typeof ConfiguracionRoute
   ContactoRoute: typeof ContactoRoute
+  PerfilRoute: typeof PerfilRoute
   SobreLiraRoute: typeof SobreLiraRoute
   SugerenciasRoute: typeof SugerenciasRoute
   MIdRoute: typeof MIdRoute
@@ -213,6 +226,13 @@ declare module '@tanstack/react-router' {
       path: '/sobre-lira'
       fullPath: '/sobre-lira'
       preLoaderRoute: typeof SobreLiraRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/perfil': {
+      id: '/perfil'
+      path: '/perfil'
+      fullPath: '/perfil'
+      preLoaderRoute: typeof PerfilRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/contacto': {
@@ -304,6 +324,7 @@ const rootRouteChildren: RootRouteChildren = {
   CheckoutRoute: CheckoutRoute,
   ConfiguracionRoute: ConfiguracionRoute,
   ContactoRoute: ContactoRoute,
+  PerfilRoute: PerfilRoute,
   SobreLiraRoute: SobreLiraRoute,
   SugerenciasRoute: SugerenciasRoute,
   MIdRoute: MIdRoute,
