@@ -53,43 +53,47 @@ function Index() {
         ))}
       </div>
 
-      <div className="grid grid-cols-2 gap-3 p-3">
+      <div className="space-y-4 p-3">
         {items.map((p) => (
           <div
             key={p.id}
-            className="overflow-hidden rounded-xl border border-border bg-card shadow-sm"
+            className="overflow-hidden rounded-2xl border border-border bg-card shadow-sm"
           >
-            <Link to="/producto/$id" params={{ id: p.id }}>
-              <ProductImage src={p.image} alt={p.name} rounded="rounded-none" className="aspect-square w-full" />
+            <Link to="/producto/$id" params={{ id: p.id }} className="block">
+              <ProductImage
+                src={p.image}
+                alt={p.name}
+                rounded="rounded-none"
+                className="aspect-[4/3] w-full"
+                imgClassName="p-4"
+              />
             </Link>
-            <div className="p-2">
+            <div className="px-4 py-3 text-center">
               <Link
                 to="/producto/$id"
                 params={{ id: p.id }}
-                className="block text-sm font-semibold text-foreground"
+                className="block text-base font-bold text-foreground"
               >
                 {p.name}
               </Link>
-              <div className="mt-1 flex items-center justify-between">
-                <span className="text-sm font-bold text-primary">${p.price.toFixed(2)}</span>
-                <Link
-                  to="/producto/$id"
-                  params={{ id: p.id }}
-                  aria-label="Comprar"
-                  className="rounded-md bg-primary p-1.5 text-primary-foreground"
-                >
-                  <ShoppingCart className="h-4 w-4" />
-                </Link>
-              </div>
+              <div className="mt-1 text-lg font-extrabold text-primary">${p.price.toFixed(2)}</div>
+              <Link
+                to="/personalizar/$id"
+                params={{ id: p.id }}
+                className="mt-3 inline-flex items-center justify-center gap-2 rounded-full bg-primary px-6 py-2.5 text-sm font-semibold text-primary-foreground"
+              >
+                <ShoppingCart className="h-4 w-4" /> Comprar
+              </Link>
             </div>
           </div>
         ))}
         {items.length === 0 && (
-          <div className="col-span-2 py-8 text-center text-sm text-muted-foreground">
+          <div className="py-8 text-center text-sm text-muted-foreground">
             No hay productos en esta categoría todavía.
           </div>
         )}
       </div>
+
     </AppShell>
   );
 }
