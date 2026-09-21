@@ -18,8 +18,12 @@ import { useCart } from "@/lib/cart";
 import { supabase } from "@/integrations/supabase/client";
 import { analyzeImage, toPixelArt } from "@/lib/design.functions";
 import { searchSongs, type Song } from "@/lib/songs";
+import { maskBirthDate, isValidBirthDate } from "@/lib/ecuador";
+import { findProfanity } from "@/lib/profanity";
+import { messageUrlFor } from "@/lib/payment";
 import {
   BACKGROUNDS,
+  ID_STYLES,
   CARD_FONTS,
   MAX_WORDS,
   MAX_WORDS_DECORATIVE,
@@ -100,6 +104,7 @@ function Personalizar() {
     keychain: true,
     photo: null,
     backgroundId: "celeste",
+    styleId: "clasico",
     customBackground: null,
     front: { name: "", birth: "", gender: "", quality: "" },
     song: null,
@@ -124,8 +129,7 @@ function Personalizar() {
     return () => clearTimeout(t);
   }, [msg]);
 
-  const origin = typeof window !== "undefined" ? window.location.origin : "";
-  const messageUrl = `${origin}/m/${designId}`;
+  const messageUrl = messageUrlFor(designId);
 
   const toggleSweet = (id: string) =>
     setD((p) => {
@@ -183,7 +187,19 @@ function Personalizar() {
       if (!d.photo) list.push({ step: 2, text: "Falta subir la foto para el pixel art del llavero." });
       const empty = Object.entries(d.front).filter(([, v]) => !v.trim());
       if (empty.length) list.push({ step: 2, text: "Faltan datos del frente del llavero." });
+      if (d.front.birth && !isValidBirthDate(d.front.birth))
+        list.push({ step: 2, text: "La fecha de nacimiento debe ser DD/MM/AAAA y válida." });
       if (!d.song) list.push({ step: 2, text: "Falta elegir la canción del código de Spotify." });
+      const dirty = [
+        ...Object.values(d.front),
+        d.back.from,
+        d.back.to,
+        d.card.text,
+      ]
+        .map((v) => findProfanity(v ?? ""))
+        .find(Boolean);
+      if (dirty)
+        list.push({ step: 2, text: `La palabra “${dirty}” no está permitida en la identificación.` });
       if (!d.card.text.trim()) list.push({ step: 3, text: "Falta escribir el mensaje de la carta digital." });
       if (!d.back.from.trim() || !d.back.to.trim())
         list.push({ step: 4, text: "Faltan los campos DE y PARA del reverso." });
@@ -365,14 +381,34 @@ function Personalizar() {
             </p>
 
             <div>
-              <div className="mb-2 text-sm font-bold text-foreground">Fondo del llavero</div>
-              <div className="grid grid-cols-4 gap-2">
+              <div className="mb-2 text-sm font-bold text-foreground">Diseño de la identificación</div>
+              <div className="grid grid-cols-3 gap-2">
+                {ID_STYLES.map((st) => (
+                  <button
+                    key={st.id}
+                    onClick={() => set({ styleId: st.id })}
+                    className={`rounded-lg border px-2 py-2 text-xs font-semibold ${
+                      d.styleId === st.id
+                        ? "border-primary bg-primary/10 text-primary"
+                        : "border-border text-foreground"
+                    }`}
+                  >
+                    {st.label}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            <div>
+              <div className="mb-2 text-sm font-bold text-foreground">Color / fondo</div>
+              <div className="grid grid-cols-6 gap-2">
                 {BACKGROUNDS.map((b) => (
                   <button
                     key={b.id}
                     onClick={() => set({ backgroundId: b.id, customBackground: null })}
                     aria-label={b.label}
-                    className={`h-12 rounded-lg ring-2 ${
+                    title={b.label}
+                    className={`h-10 rounded-lg ring-2 ${
                       d.backgroundId === b.id && !d.customBackground ? "ring-primary" : "ring-transparent"
                     }`}
                     style={{ backgroundImage: b.css }}
@@ -402,22 +438,40 @@ function Personalizar() {
               <div className="text-sm font-bold text-foreground">Datos del frente</div>
               {(
                 [
-                  ["name", "Nombre"],
-                  ["birth", "Fecha de nacimiento"],
-                  ["gender", "Género"],
-                  ["quality", "Cualidad"],
+                  ["name", "Nombre", "Ej: Yeon Skylar"],
+                  ["birth", "Fecha de nacimiento", "DD/MM/AAAA"],
+                  ["gender", "Género", "Ej: Femenino"],
+                  ["quality", "Cualidad", "Ej: Soñadora"],
                 ] as const
-              ).map(([k, label]) => (
-                <input
-                  key={k}
-                  ref={(el) => {
-                    fieldRefs.current[k] = el;
-                  }}
-                  value={d.front[k]}
-                  placeholder={label}
-                  onChange={(e) => set({ front: { ...d.front, [k]: e.target.value } })}
-                  className="w-full rounded-lg border border-border bg-background px-4 py-2.5 text-sm text-foreground focus:border-primary focus:outline-none"
-                />
+              ).map(([k, label, ph]) => (
+                <div key={k}>
+                  <label className="mb-1 block text-xs font-semibold text-muted-foreground">
+                    {label}
+                  </label>
+                  <input
+                    ref={(el) => {
+                      fieldRefs.current[k] = el;
+                    }}
+                    value={d.front[k]}
+                    placeholder={ph}
+                    inputMode={k === "birth" ? "numeric" : undefined}
+                    maxLength={k === "birth" ? 10 : 28}
+                    onChange={(e) => {
+                      const raw = e.target.value;
+                      const v = k === "birth" ? maskBirthDate(raw) : raw;
+                      const bad = findProfanity(v);
+                      if (bad) {
+                        setMsg({ kind: "err", text: `La palabra “${bad}” no está permitida.` });
+                        return;
+                      }
+                      set({ front: { ...d.front, [k]: v } });
+                    }}
+                    className="w-full rounded-lg border border-border bg-background px-4 py-2.5 text-sm text-foreground focus:border-primary focus:outline-none"
+                  />
+                  {k === "birth" && d.front.birth.length === 10 && !isValidBirthDate(d.front.birth) && (
+                    <p className="mt-1 text-xs text-destructive">Esa fecha no existe. Usa DD/MM/AAAA.</p>
+                  )}
+                </div>
               ))}
             </div>
 
@@ -441,7 +495,14 @@ function Personalizar() {
             <DigitalCard d={d} />
             <textarea
               value={d.card.text}
-              onChange={(e) => set({ card: { ...d.card, text: e.target.value } })}
+              onChange={(e) => {
+                const bad = findProfanity(e.target.value);
+                if (bad) {
+                  setMsg({ kind: "err", text: `La palabra “${bad}” no está permitida.` });
+                  return;
+                }
+                set({ card: { ...d.card, text: e.target.value } });
+              }}
               rows={3}
               placeholder="Escribe tu mensaje especial…"
               className="w-full rounded-lg border border-border bg-background px-4 py-3 text-sm text-foreground focus:border-primary focus:outline-none"
@@ -483,13 +544,23 @@ function Personalizar() {
                   <input
                     value={d.back.from}
                     placeholder="De…"
-                    onChange={(e) => set({ back: { ...d.back, from: e.target.value } })}
+                    maxLength={24}
+                    onChange={(e) => {
+                      const bad = findProfanity(e.target.value);
+                      if (bad) return setMsg({ kind: "err", text: `La palabra “${bad}” no está permitida.` });
+                      set({ back: { ...d.back, from: e.target.value } });
+                    }}
                     className="w-full rounded-lg border border-border bg-background px-4 py-2.5 text-sm focus:border-primary focus:outline-none"
                   />
                   <input
                     value={d.back.to}
                     placeholder="Para…"
-                    onChange={(e) => set({ back: { ...d.back, to: e.target.value } })}
+                    maxLength={24}
+                    onChange={(e) => {
+                      const bad = findProfanity(e.target.value);
+                      if (bad) return setMsg({ kind: "err", text: `La palabra “${bad}” no está permitida.` });
+                      set({ back: { ...d.back, to: e.target.value } });
+                    }}
                     className="w-full rounded-lg border border-border bg-background px-4 py-2.5 text-sm focus:border-primary focus:outline-none"
                   />
                 </div>
@@ -580,13 +651,13 @@ function SongPicker({ onClose, onPick }: { onClose: () => void; onPick: (s: Song
           autoFocus
           value={q}
           onChange={(e) => setQ(e.target.value)}
-          placeholder="Nombre de la canción o artista…"
+          placeholder="Escribe el nombre de la canción o el artista…"
           className="w-full rounded-lg border border-border bg-background px-4 py-3 text-sm focus:border-primary focus:outline-none"
         />
         <div className="mt-2 divide-y divide-border">
-          {results.map((s) => (
+          {results.map((s, i) => (
             <button
-              key={s.id}
+              key={`${s.id}-${i}`}
               onClick={() => onPick(s)}
               className="flex w-full items-center gap-2 py-3 text-left"
             >
