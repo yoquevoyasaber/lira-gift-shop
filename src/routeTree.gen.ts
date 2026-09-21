@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as SugerenciasRouteImport } from './routes/sugerencias'
 import { Route as SobreLiraRouteImport } from './routes/sobre-lira'
+import { Route as PerfilRouteImport } from './routes/perfil'
 import { Route as ContactoRouteImport } from './routes/contacto'
 import { Route as ConfiguracionRouteImport } from './routes/configuracion'
 import { Route as CheckoutRouteImport } from './routes/checkout'
@@ -18,6 +19,7 @@ import { Route as ChatRouteImport } from './routes/chat'
 import { Route as CarritoRouteImport } from './routes/carrito'
 import { Route as AyudaRouteImport } from './routes/ayuda'
 import { Route as AuthRouteImport } from './routes/auth'
+import { Route as AdminRouteImport } from './routes/admin'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ProductoIdRouteImport } from './routes/producto.$id'
 import { Route as PersonalizarIdRouteImport } from './routes/personalizar.$id'
@@ -31,6 +33,11 @@ const SugerenciasRoute = SugerenciasRouteImport.update({
 const SobreLiraRoute = SobreLiraRouteImport.update({
   id: '/sobre-lira',
   path: '/sobre-lira',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PerfilRoute = PerfilRouteImport.update({
+  id: '/perfil',
+  path: '/perfil',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ContactoRoute = ContactoRouteImport.update({
@@ -68,6 +75,11 @@ const AuthRoute = AuthRouteImport.update({
   path: '/auth',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AdminRoute = AdminRouteImport.update({
+  id: '/admin',
+  path: '/admin',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
@@ -91,6 +103,7 @@ const MIdRoute = MIdRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/admin': typeof AdminRoute
   '/auth': typeof AuthRoute
   '/ayuda': typeof AyudaRoute
   '/carrito': typeof CarritoRoute
@@ -98,6 +111,7 @@ export interface FileRoutesByFullPath {
   '/checkout': typeof CheckoutRoute
   '/configuracion': typeof ConfiguracionRoute
   '/contacto': typeof ContactoRoute
+  '/perfil': typeof PerfilRoute
   '/sobre-lira': typeof SobreLiraRoute
   '/sugerencias': typeof SugerenciasRoute
   '/m/$id': typeof MIdRoute
@@ -106,6 +120,7 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/admin': typeof AdminRoute
   '/auth': typeof AuthRoute
   '/ayuda': typeof AyudaRoute
   '/carrito': typeof CarritoRoute
@@ -113,6 +128,7 @@ export interface FileRoutesByTo {
   '/checkout': typeof CheckoutRoute
   '/configuracion': typeof ConfiguracionRoute
   '/contacto': typeof ContactoRoute
+  '/perfil': typeof PerfilRoute
   '/sobre-lira': typeof SobreLiraRoute
   '/sugerencias': typeof SugerenciasRoute
   '/m/$id': typeof MIdRoute
@@ -122,6 +138,7 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/admin': typeof AdminRoute
   '/auth': typeof AuthRoute
   '/ayuda': typeof AyudaRoute
   '/carrito': typeof CarritoRoute
@@ -129,6 +146,7 @@ export interface FileRoutesById {
   '/checkout': typeof CheckoutRoute
   '/configuracion': typeof ConfiguracionRoute
   '/contacto': typeof ContactoRoute
+  '/perfil': typeof PerfilRoute
   '/sobre-lira': typeof SobreLiraRoute
   '/sugerencias': typeof SugerenciasRoute
   '/m/$id': typeof MIdRoute
@@ -139,6 +157,7 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/admin'
     | '/auth'
     | '/ayuda'
     | '/carrito'
@@ -146,6 +165,7 @@ export interface FileRouteTypes {
     | '/checkout'
     | '/configuracion'
     | '/contacto'
+    | '/perfil'
     | '/sobre-lira'
     | '/sugerencias'
     | '/m/$id'
@@ -154,6 +174,7 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/admin'
     | '/auth'
     | '/ayuda'
     | '/carrito'
@@ -161,6 +182,7 @@ export interface FileRouteTypes {
     | '/checkout'
     | '/configuracion'
     | '/contacto'
+    | '/perfil'
     | '/sobre-lira'
     | '/sugerencias'
     | '/m/$id'
@@ -169,6 +191,7 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/'
+    | '/admin'
     | '/auth'
     | '/ayuda'
     | '/carrito'
@@ -176,6 +199,7 @@ export interface FileRouteTypes {
     | '/checkout'
     | '/configuracion'
     | '/contacto'
+    | '/perfil'
     | '/sobre-lira'
     | '/sugerencias'
     | '/m/$id'
@@ -185,6 +209,7 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AdminRoute: typeof AdminRoute
   AuthRoute: typeof AuthRoute
   AyudaRoute: typeof AyudaRoute
   CarritoRoute: typeof CarritoRoute
@@ -192,6 +217,7 @@ export interface RootRouteChildren {
   CheckoutRoute: typeof CheckoutRoute
   ConfiguracionRoute: typeof ConfiguracionRoute
   ContactoRoute: typeof ContactoRoute
+  PerfilRoute: typeof PerfilRoute
   SobreLiraRoute: typeof SobreLiraRoute
   SugerenciasRoute: typeof SugerenciasRoute
   MIdRoute: typeof MIdRoute
@@ -213,6 +239,13 @@ declare module '@tanstack/react-router' {
       path: '/sobre-lira'
       fullPath: '/sobre-lira'
       preLoaderRoute: typeof SobreLiraRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/perfil': {
+      id: '/perfil'
+      path: '/perfil'
+      fullPath: '/perfil'
+      preLoaderRoute: typeof PerfilRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/contacto': {
@@ -264,6 +297,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/admin': {
+      id: '/admin'
+      path: '/admin'
+      fullPath: '/admin'
+      preLoaderRoute: typeof AdminRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -297,6 +337,7 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AdminRoute: AdminRoute,
   AuthRoute: AuthRoute,
   AyudaRoute: AyudaRoute,
   CarritoRoute: CarritoRoute,
@@ -304,6 +345,7 @@ const rootRouteChildren: RootRouteChildren = {
   CheckoutRoute: CheckoutRoute,
   ConfiguracionRoute: ConfiguracionRoute,
   ContactoRoute: ContactoRoute,
+  PerfilRoute: PerfilRoute,
   SobreLiraRoute: SobreLiraRoute,
   SugerenciasRoute: SugerenciasRoute,
   MIdRoute: MIdRoute,

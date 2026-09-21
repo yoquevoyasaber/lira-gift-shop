@@ -2,6 +2,7 @@ import { createFileRoute, useNavigate, useSearch } from "@tanstack/react-router"
 import { useEffect, useState } from "react";
 import { LogOut } from "lucide-react";
 import { AppShell } from "@/components/AppShell";
+import { GUAYAQUIL_ZONES, formatEcPhone, isValidEcPhone } from "@/lib/ecuador";
 import { LOGO_URL } from "@/lib/products";
 import { supabase } from "@/integrations/supabase/client";
 import { lovable } from "@/integrations/lovable";
@@ -40,7 +41,7 @@ function Auth() {
   const { next } = useSearch({ from: "/auth" });
 
   useEffect(() => {
-    if (user && next) void navigate({ to: next });
+    if (user) void navigate({ to: next ?? "/perfil" });
   }, [user, next, navigate]);
 
   const submit = async (e: React.FormEvent) => {
@@ -49,6 +50,9 @@ function Auth() {
     setMsg("");
     setBusy(true);
     try {
+      if (mode === "register" && !isValidEcPhone(phone)) {
+        throw new Error("El teléfono debe ser un celular de Ecuador (10 dígitos, empieza en 09).");
+      }
       if (mode === "login") {
         const { error } = await supabase.auth.signInWithPassword({ email, password });
         if (error) throw error;
@@ -120,35 +124,7 @@ function Auth() {
   if (user) {
     return (
       <AppShell>
-        <div className="p-6">
-          <div className="mb-6 flex flex-col items-center gap-2">
-            <img src={LOGO_URL} alt="Lira" className="h-20 w-20 rounded-2xl shadow-lg dark:grayscale" />
-            <h1 className="text-xl font-bold text-primary">Mi cuenta</h1>
-            <p className="text-xs text-muted-foreground">{user.email}</p>
-          </div>
-
-          <form onSubmit={saveProfile} className="space-y-3">
-            <Field value={fullName} onChange={setFullName} placeholder="Nombre completo" />
-            <Field value={phone} onChange={setPhone} placeholder="Teléfono" type="tel" />
-            <Field value={address} onChange={setAddress} placeholder="Dirección de entrega" />
-            <button
-              type="submit"
-              disabled={busy}
-              className="w-full rounded-lg bg-primary py-3 font-semibold text-primary-foreground disabled:opacity-60"
-            >
-              Guardar datos
-            </button>
-          </form>
-
-          <button
-            onClick={() => void signOut()}
-            className="mt-4 flex w-full items-center justify-center gap-2 rounded-lg border border-border py-3 text-sm font-semibold text-foreground"
-          >
-            <LogOut className="h-4 w-4" /> Cerrar sesión
-          </button>
-
-          <Messages msg={msg} err={err} />
-        </div>
+        <div className="p-10 text-center text-sm text-muted-foreground">Abriendo tu perfil…</div>
       </AppShell>
     );
   }
@@ -179,8 +155,26 @@ function Auth() {
           {mode === "register" && (
             <>
               <Field value={fullName} onChange={setFullName} placeholder="Nombre completo" required />
-              <Field value={phone} onChange={setPhone} placeholder="Teléfono" type="tel" required />
-              <Field value={address} onChange={setAddress} placeholder="Dirección de entrega" required />
+              <Field
+                value={phone}
+                onChange={(v) => setPhone(formatEcPhone(v))}
+                placeholder="Celular de Ecuador (0968 718 145)"
+                type="tel"
+                required
+              />
+              <select
+                value={address}
+                onChange={(e) => setAddress(e.target.value)}
+                required
+                className="w-full rounded-lg border border-border bg-background px-4 py-3 text-sm text-foreground focus:border-primary focus:outline-none"
+              >
+                <option value="">Sector de entrega en Guayaquil…</option>
+                {GUAYAQUIL_ZONES.map((z) => (
+                  <option key={z.id} value={z.label}>
+                    {z.label}
+                  </option>
+                ))}
+              </select>
             </>
           )}
           <Field value={email} onChange={setEmail} placeholder="Correo electrónico" type="email" required />

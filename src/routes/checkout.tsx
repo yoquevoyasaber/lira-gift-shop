@@ -6,6 +6,7 @@ import { useCart } from "@/lib/cart";
 import { useAuth } from "@/lib/auth";
 import { supabase } from "@/integrations/supabase/client";
 import { PAYMENT_INFO, whatsappOrderLink } from "@/lib/payment";
+import { GUAYAQUIL_ZONES, formatEcPhone, isValidEcPhone, zoneLabel } from "@/lib/ecuador";
 
 export const Route = createFileRoute("/checkout")({
   head: () => ({
@@ -28,6 +29,7 @@ function Checkout() {
 
   const [fullName, setFullName] = useState("");
   const [phone, setPhone] = useState("");
+  const [zoneId, setZoneId] = useState("");
   const [address, setAddress] = useState("");
   const [notes, setNotes] = useState("");
   const [step, setStep] = useState<Step>("form");
@@ -42,6 +44,8 @@ function Checkout() {
       setFullName((v) => v || profile.full_name);
       setPhone((v) => v || profile.phone);
       setAddress((v) => v || profile.address);
+      const z = GUAYAQUIL_ZONES.find((zz) => (profile.address ?? "").startsWith(zz.label));
+      if (z) setZoneId((v) => v || z.id);
     }
   }, [profile]);
 
@@ -72,10 +76,19 @@ function Checkout() {
 
   const createOrder = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (!isValidEcPhone(phone)) {
+      setErr("El teléfono debe ser un celular de Ecuador (10 dígitos, empieza en 09).");
+      return;
+    }
+    if (!zoneId) {
+      setErr("Elige uno de los sectores de entrega disponibles en Guayaquil.");
+      return;
+    }
     setBusy(true);
     setErr("");
     try {
       const total = totalPrice;
+      const fullAddress = `${zoneLabel(zoneId)} · ${address}`;
       const { data: order, error } = await supabase
         .from("orders")
         .insert({
@@ -83,9 +96,10 @@ function Checkout() {
           total,
           full_name: fullName,
           phone,
-          address,
+          address: fullAddress,
           notes,
           status: "pending_payment",
+          payment_method: "app_direct",
         })
         .select("id")
         .single();
@@ -101,7 +115,9 @@ function Checkout() {
       const { error: itemsErr } = await supabase.from("order_items").insert(items);
       if (itemsErr) throw itemsErr;
 
-      await supabase.from("profiles").upsert({ id: user.id, full_name: fullName, phone, address });
+      await supabase
+        .from("profiles")
+        .upsert({ id: user.id, full_name: fullName, phone, address: fullAddress });
 
       setOrderId(order.id);
       setOrderTotal(total);
@@ -188,8 +204,32 @@ function Checkout() {
             </div>
 
             <Input value={fullName} onChange={setFullName} placeholder="Nombre completo" required />
-            <Input value={phone} onChange={setPhone} placeholder="Teléfono / WhatsApp" required />
-            <Input value={address} onChange={setAddress} placeholder="Dirección de entrega" required />
+            <Input
+              value={phone}
+              onChange={(v) => setPhone(formatEcPhone(v))}
+              placeholder="Celular de Ecuador (0968 718 145)"
+              required
+            />
+            <select
+              value={zoneId}
+              onChange={(e) => setZoneId(e.target.value)}
+              required
+              className="w-full rounded-lg border border-border bg-background px-4 py-3 text-sm text-foreground focus:border-primary focus:outline-none"
+            >
+              <option value="">Sector de entrega en Guayaquil…</option>
+              {GUAYAQUIL_ZONES.map((z) => (
+                <option key={z.id} value={z.id}>
+                  {z.label}
+                  {z.note ? ` (${z.note})` : ""}
+                </option>
+              ))}
+            </select>
+            <Input
+              value={address}
+              onChange={setAddress}
+              placeholder="Calle, número y referencia"
+              required
+            />
             <textarea
               value={notes}
               onChange={(e) => setNotes(e.target.value)}
@@ -245,7 +285,7 @@ function Checkout() {
               disabled={busy}
               className="w-full rounded-lg bg-primary py-3 font-semibold text-primary-foreground disabled:opacity-60"
             >
-              {busy ? "Procesando pago…" : "Pagar ahora (pago de prueba)"}
+              {busy ? "Procesando pago…" : "Pagar ahora en la app (prueba)"}
             </button>
 
             <label className="flex cursor-pointer flex-col items-center gap-2 rounded-lg border-2 border-dashed border-primary/50 p-6 text-center">

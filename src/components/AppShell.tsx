@@ -27,7 +27,7 @@ export function AppShell({ children }: { children: ReactNode }) {
           <Link to="/" className="flex items-center gap-2">
             <img src={LOGO_URL} alt="Lira" className="h-10 w-10 rounded-lg dark:grayscale" />
           </Link>
-          <Link to="/auth" aria-label="Cuenta" className="p-1">
+          <Link to="/perfil" aria-label="Cuenta" className="p-1">
             <User className="h-6 w-6" />
           </Link>
         </div>
