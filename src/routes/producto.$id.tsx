@@ -30,7 +30,7 @@ export const Route = createFileRoute("/producto/$id")({
   ),
   errorComponent: ({ error }) => (
     <AppShell>
-      <div className="p-8 text-center text-destructive">{error.message}</div>
+      <div className="p-8 text-center text-destructive">{error instanceof Error ? error.message : "Error"}</div>
     </AppShell>
   ),
 });

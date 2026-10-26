@@ -9,70 +9,25 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as SugerenciasRouteImport } from './routes/sugerencias'
-import { Route as SobreLiraRouteImport } from './routes/sobre-lira'
-import { Route as PerfilRouteImport } from './routes/perfil'
-import { Route as ContactoRouteImport } from './routes/contacto'
-import { Route as ConfiguracionRouteImport } from './routes/configuracion'
-import { Route as CheckoutRouteImport } from './routes/checkout'
-import { Route as ChatRouteImport } from './routes/chat'
-import { Route as CarritoRouteImport } from './routes/carrito'
-import { Route as AyudaRouteImport } from './routes/ayuda'
-import { Route as AuthRouteImport } from './routes/auth'
-import { Route as AdminRouteImport } from './routes/admin'
 import { Route as IndexRouteImport } from './routes/index'
-import { Route as ProductoIdRouteImport } from './routes/producto.$id'
-import { Route as PersonalizarIdRouteImport } from './routes/personalizar.$id'
+import { Route as AdminRouteImport } from './routes/admin'
+import { Route as AuthRouteImport } from './routes/auth'
+import { Route as AyudaRouteImport } from './routes/ayuda'
+import { Route as CarritoRouteImport } from './routes/carrito'
+import { Route as ChatRouteImport } from './routes/chat'
+import { Route as CheckoutRouteImport } from './routes/checkout'
+import { Route as ConfiguracionRouteImport } from './routes/configuracion'
+import { Route as ContactoRouteImport } from './routes/contacto'
+import { Route as PerfilRouteImport } from './routes/perfil'
+import { Route as SobreLiraRouteImport } from './routes/sobre-lira'
+import { Route as SugerenciasRouteImport } from './routes/sugerencias'
 import { Route as MIdRouteImport } from './routes/m.$id'
+import { Route as PersonalizarIdRouteImport } from './routes/personalizar.$id'
+import { Route as ProductoIdRouteImport } from './routes/producto.$id'
 
-const SugerenciasRoute = SugerenciasRouteImport.update({
-  id: '/sugerencias',
-  path: '/sugerencias',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const SobreLiraRoute = SobreLiraRouteImport.update({
-  id: '/sobre-lira',
-  path: '/sobre-lira',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const PerfilRoute = PerfilRouteImport.update({
-  id: '/perfil',
-  path: '/perfil',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ContactoRoute = ContactoRouteImport.update({
-  id: '/contacto',
-  path: '/contacto',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ConfiguracionRoute = ConfiguracionRouteImport.update({
-  id: '/configuracion',
-  path: '/configuracion',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const CheckoutRoute = CheckoutRouteImport.update({
-  id: '/checkout',
-  path: '/checkout',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ChatRoute = ChatRouteImport.update({
-  id: '/chat',
-  path: '/chat',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const CarritoRoute = CarritoRouteImport.update({
-  id: '/carrito',
-  path: '/carrito',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const AyudaRoute = AyudaRouteImport.update({
-  id: '/ayuda',
-  path: '/ayuda',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const AuthRoute = AuthRouteImport.update({
-  id: '/auth',
-  path: '/auth',
+const IndexRoute = IndexRouteImport.update({
+  id: '/',
+  path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AdminRoute = AdminRouteImport.update({
@@ -80,14 +35,59 @@ const AdminRoute = AdminRouteImport.update({
   path: '/admin',
   getParentRoute: () => rootRouteImport,
 } as any)
-const IndexRoute = IndexRouteImport.update({
-  id: '/',
-  path: '/',
+const AuthRoute = AuthRouteImport.update({
+  id: '/auth',
+  path: '/auth',
   getParentRoute: () => rootRouteImport,
 } as any)
-const ProductoIdRoute = ProductoIdRouteImport.update({
-  id: '/producto/$id',
-  path: '/producto/$id',
+const AyudaRoute = AyudaRouteImport.update({
+  id: '/ayuda',
+  path: '/ayuda',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CarritoRoute = CarritoRouteImport.update({
+  id: '/carrito',
+  path: '/carrito',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ChatRoute = ChatRouteImport.update({
+  id: '/chat',
+  path: '/chat',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CheckoutRoute = CheckoutRouteImport.update({
+  id: '/checkout',
+  path: '/checkout',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ConfiguracionRoute = ConfiguracionRouteImport.update({
+  id: '/configuracion',
+  path: '/configuracion',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ContactoRoute = ContactoRouteImport.update({
+  id: '/contacto',
+  path: '/contacto',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PerfilRoute = PerfilRouteImport.update({
+  id: '/perfil',
+  path: '/perfil',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SobreLiraRoute = SobreLiraRouteImport.update({
+  id: '/sobre-lira',
+  path: '/sobre-lira',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SugerenciasRoute = SugerenciasRouteImport.update({
+  id: '/sugerencias',
+  path: '/sugerencias',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const MIdRoute = MIdRouteImport.update({
+  id: '/m/$id',
+  path: '/m/$id',
   getParentRoute: () => rootRouteImport,
 } as any)
 const PersonalizarIdRoute = PersonalizarIdRouteImport.update({
@@ -95,9 +95,9 @@ const PersonalizarIdRoute = PersonalizarIdRouteImport.update({
   path: '/personalizar/$id',
   getParentRoute: () => rootRouteImport,
 } as any)
-const MIdRoute = MIdRouteImport.update({
-  id: '/m/$id',
-  path: '/m/$id',
+const ProductoIdRoute = ProductoIdRouteImport.update({
+  id: '/producto/$id',
+  path: '/producto/$id',
   getParentRoute: () => rootRouteImport,
 } as any)
 
@@ -227,74 +227,11 @@ export interface RootRouteChildren {
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/sugerencias': {
-      id: '/sugerencias'
-      path: '/sugerencias'
-      fullPath: '/sugerencias'
-      preLoaderRoute: typeof SugerenciasRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/sobre-lira': {
-      id: '/sobre-lira'
-      path: '/sobre-lira'
-      fullPath: '/sobre-lira'
-      preLoaderRoute: typeof SobreLiraRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/perfil': {
-      id: '/perfil'
-      path: '/perfil'
-      fullPath: '/perfil'
-      preLoaderRoute: typeof PerfilRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/contacto': {
-      id: '/contacto'
-      path: '/contacto'
-      fullPath: '/contacto'
-      preLoaderRoute: typeof ContactoRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/configuracion': {
-      id: '/configuracion'
-      path: '/configuracion'
-      fullPath: '/configuracion'
-      preLoaderRoute: typeof ConfiguracionRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/checkout': {
-      id: '/checkout'
-      path: '/checkout'
-      fullPath: '/checkout'
-      preLoaderRoute: typeof CheckoutRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/chat': {
-      id: '/chat'
-      path: '/chat'
-      fullPath: '/chat'
-      preLoaderRoute: typeof ChatRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/carrito': {
-      id: '/carrito'
-      path: '/carrito'
-      fullPath: '/carrito'
-      preLoaderRoute: typeof CarritoRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/ayuda': {
-      id: '/ayuda'
-      path: '/ayuda'
-      fullPath: '/ayuda'
-      preLoaderRoute: typeof AyudaRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/auth': {
-      id: '/auth'
-      path: '/auth'
-      fullPath: '/auth'
-      preLoaderRoute: typeof AuthRouteImport
+    '/': {
+      id: '/'
+      path: '/'
+      fullPath: '/'
+      preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/admin': {
@@ -304,18 +241,81 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/': {
-      id: '/'
-      path: '/'
-      fullPath: '/'
-      preLoaderRoute: typeof IndexRouteImport
+    '/auth': {
+      id: '/auth'
+      path: '/auth'
+      fullPath: '/auth'
+      preLoaderRoute: typeof AuthRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/producto/$id': {
-      id: '/producto/$id'
-      path: '/producto/$id'
-      fullPath: '/producto/$id'
-      preLoaderRoute: typeof ProductoIdRouteImport
+    '/ayuda': {
+      id: '/ayuda'
+      path: '/ayuda'
+      fullPath: '/ayuda'
+      preLoaderRoute: typeof AyudaRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/carrito': {
+      id: '/carrito'
+      path: '/carrito'
+      fullPath: '/carrito'
+      preLoaderRoute: typeof CarritoRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/chat': {
+      id: '/chat'
+      path: '/chat'
+      fullPath: '/chat'
+      preLoaderRoute: typeof ChatRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/checkout': {
+      id: '/checkout'
+      path: '/checkout'
+      fullPath: '/checkout'
+      preLoaderRoute: typeof CheckoutRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/configuracion': {
+      id: '/configuracion'
+      path: '/configuracion'
+      fullPath: '/configuracion'
+      preLoaderRoute: typeof ConfiguracionRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/contacto': {
+      id: '/contacto'
+      path: '/contacto'
+      fullPath: '/contacto'
+      preLoaderRoute: typeof ContactoRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/perfil': {
+      id: '/perfil'
+      path: '/perfil'
+      fullPath: '/perfil'
+      preLoaderRoute: typeof PerfilRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/sobre-lira': {
+      id: '/sobre-lira'
+      path: '/sobre-lira'
+      fullPath: '/sobre-lira'
+      preLoaderRoute: typeof SobreLiraRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/sugerencias': {
+      id: '/sugerencias'
+      path: '/sugerencias'
+      fullPath: '/sugerencias'
+      preLoaderRoute: typeof SugerenciasRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/m/$id': {
+      id: '/m/$id'
+      path: '/m/$id'
+      fullPath: '/m/$id'
+      preLoaderRoute: typeof MIdRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/personalizar/$id': {
@@ -325,11 +325,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PersonalizarIdRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/m/$id': {
-      id: '/m/$id'
-      path: '/m/$id'
-      fullPath: '/m/$id'
-      preLoaderRoute: typeof MIdRouteImport
+    '/producto/$id': {
+      id: '/producto/$id'
+      path: '/producto/$id'
+      fullPath: '/producto/$id'
+      preLoaderRoute: typeof ProductoIdRouteImport
       parentRoute: typeof rootRouteImport
     }
   }
