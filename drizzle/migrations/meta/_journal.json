@@ -8,6 +8,13 @@
       "when": 1792987777374,
       "tag": "0000_reload_schema_cache",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1794803332538,
+      "tag": "0001_secure_order_payment_and_design_links",
+      "breakpoints": true
     }
   ]
 }

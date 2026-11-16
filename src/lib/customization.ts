@@ -13,6 +13,14 @@ export const SWEET_TIERS: Record<"a" | "b" | "c", Sweet[]> = {
     { id: "malvaviscos", name: "Malvaviscos", emoji: "☁️" },
     { id: "caramelos", name: "Caramelos masticables", emoji: "🍮" },
     { id: "chicles", name: "Chicles de menta", emoji: "🌿" },
+    { id: "manicho-mini", name: "Manicho mini", emoji: "🍫" },
+    { id: "galak-mini", name: "Galak mini", emoji: "🤍" },
+    { id: "tango", name: "Tango", emoji: "🍫" },
+    { id: "amor", name: "Galletas Amor", emoji: "🍪" },
+    { id: "bonbonbum", name: "Bon Bon Bum", emoji: "🍭" },
+    { id: "plop", name: "Chupetes Plop", emoji: "🍭" },
+    { id: "mentitas", name: "Mentitas", emoji: "🌿" },
+    { id: "chocman", name: "Chocman", emoji: "🍰" },
   ],
   b: [
     { id: "kitkat", name: "KitKat", emoji: "🍫" },
@@ -21,6 +29,14 @@ export const SWEET_TIERS: Record<"a" | "b" | "c", Sweet[]> = {
     { id: "kinder", name: "Kinder Bueno", emoji: "🤎" },
     { id: "trufas", name: "Trufas de chocolate", emoji: "🍥" },
     { id: "pringles", name: "Pringles mini", emoji: "🥔" },
+    { id: "manicho", name: "Manicho", emoji: "🥜" },
+    { id: "galak", name: "Galak", emoji: "🤍" },
+    { id: "crunch", name: "Nestlé Crunch", emoji: "🍫" },
+    { id: "bis", name: "Bis", emoji: "🍫" },
+    { id: "oreo", name: "Oreo", emoji: "🍪" },
+    { id: "jet", name: "Chocolate Jet", emoji: "🍫" },
+    { id: "chocobreak", name: "Chocobreak", emoji: "🍬" },
+    { id: "hersheys", name: "Hershey's", emoji: "🍫" },
   ],
   c: [
     { id: "ferrero", name: "Ferrero Rocher", emoji: "🌟" },
@@ -29,6 +45,12 @@ export const SWEET_TIERS: Record<"a" | "b" | "c", Sweet[]> = {
     { id: "lindt", name: "Lindt Lindor", emoji: "🍫" },
     { id: "kinderjoy", name: "Kinder Joy", emoji: "🥚" },
     { id: "bombones", name: "Bombones de licor", emoji: "🍾" },
+    { id: "pacari", name: "Pacari chocolate ecuatoriano", emoji: "🇪🇨" },
+    { id: "republica", name: "República del Cacao", emoji: "🇪🇨" },
+    { id: "toblerone", name: "Toblerone", emoji: "🍫" },
+    { id: "kisses", name: "Hershey's Kisses", emoji: "🍫" },
+    { id: "kinder-chocolate", name: "Kinder Chocolate", emoji: "🥛" },
+    { id: "ferrero-collection", name: "Ferrero Collection", emoji: "🎁" },
   ],
 };
 
@@ -273,6 +295,12 @@ export const ID_STYLES: IdStyle[] = [
   { id: "minimal", label: "Minimal", topper: "ninguno", photo: "solid", radius: 12, fields: "lineas" },
   { id: "retro", label: "Retro", topper: "lunares", photo: "solid", radius: 8, fields: "lineas" },
   { id: "ficha", label: "Ficha pro", topper: "estrellas", photo: "solid", radius: 14, fields: "lineas" },
+  { id: "polaroid", label: "Recuerdo", topper: "lunares", photo: "polaroid", radius: 10, fields: "lineas" },
+  { id: "constelacion", label: "Constelación", topper: "estrellas", photo: "circle", radius: 14, fields: "lineas" },
+  { id: "carta-amor", label: "Carta de amor", topper: "corazones", photo: "dashed", radius: 16, fields: "lineas" },
+  { id: "arcade", label: "Arcade", topper: "chispas", photo: "solid", radius: 4, fields: "capsulas" },
+  { id: "confeti", label: "Confeti", topper: "chispas", photo: "polaroid", radius: 18, fields: "capsulas" },
+  { id: "burbuja", label: "Burbuja", topper: "lunares", photo: "circle", radius: 20, fields: "capsulas" },
 ];
 
 export const getIdStyle = (id: string) => ID_STYLES.find((s) => s.id === id) ?? ID_STYLES[0];
