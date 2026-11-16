@@ -1,0 +1,20 @@
+{
+  "name": "Lira",
+  "short_name": "Lira",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#FCE4EC",
+  "theme_color": "#FCE4EC",
+  "icons": [
+    {
+      "src": "/favicon.ico",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/favicon.ico",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
