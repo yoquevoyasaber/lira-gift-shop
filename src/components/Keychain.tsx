@@ -8,6 +8,7 @@ import {
 } from "@/lib/customization";
 import { spotifyCodeUrl } from "@/lib/songs";
 import { PAYMENT_INFO } from "@/lib/payment";
+import { MessageQR } from './MessageQR';
 
 /* ---------------- helpers de estilo ---------------- */
 
@@ -160,7 +161,7 @@ export function KeychainFront({
             <img
               src={d.photo}
               alt="Retrato pixel art"
-              className="h-full w-full object-cover"
+              className="h-full w-full object-contain"
               style={{ imageRendering: "pixelated" }}
             />
           ) : (
@@ -279,7 +280,7 @@ export function KeychainBack({ d, url }: { d: DesignData; url: string }) {
       </div>
 
       <div className="mx-auto mt-3 w-fit rounded-xl bg-white p-2 shadow">
-        <img src={qrImageUrl(url)} alt="Código QR del mensaje" className="h-28 w-28" />
+        <MessageQR url={url} />
       </div>
       <div className="mt-1.5 text-[10px] font-bold tracking-[0.2em]" style={{ color: text }}>
         ¡ESCANÉAME!
@@ -318,7 +319,7 @@ export function DigitalCard({
           <img
             src={d.photo}
             alt="Retrato pixel art"
-            className="mx-auto h-24 w-24 rounded-xl border-2 border-white object-cover shadow"
+            className="mx-auto h-24 w-24 rounded-xl border-2 border-white object-contain shadow"
             style={{ imageRendering: "pixelated" }}
           />
         )}
