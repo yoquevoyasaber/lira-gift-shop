@@ -3,6 +3,7 @@ import { Trash2, ShoppingBag } from "lucide-react";
 import { AppShell } from "@/components/AppShell";
 import { useCart } from "@/lib/cart";
 import { ProductImage } from "@/components/ProductImage";
+import { Button } from '@/components/ui/button';
 
 export const Route = createFileRoute("/carrito")({
   head: () => ({ meta: [{ title: "Carrito — Lira" }] }),
@@ -10,7 +11,7 @@ export const Route = createFileRoute("/carrito")({
 });
 
 function Carrito() {
-  const { detailed, remove, clear, totalPrice, totalCount } = useCart();
+  const { detailed, add, remove, clear, totalPrice, totalCount } = useCart();
 
   return (
     <AppShell>
@@ -42,6 +43,12 @@ function Carrito() {
                   <div>
                     <div className="text-sm font-semibold text-foreground">{i.product.name}</div>
                     <div className="text-xs text-muted-foreground">Cantidad: {i.qty}</div>
+                    <div className="text-xs text-muted-foreground">{i.designId ? 'Personalización guardada' : 'Sin personalizar'}</div>
+                    <div className="mt-2 flex flex-wrap gap-1">
+                      {i.designId && <Button size="sm" variant="outline" onClick={() => add(i.id, 1, i.designId)}>+ Misma personalización</Button>}
+                      <Button asChild size="sm" variant="secondary"><Link to="/personalizar/$id" params={{ id: i.id }}>+ Otra personalización</Link></Button>
+                      <Button asChild size="sm" variant="ghost"><Link to="/personalizar/$id" params={{ id: i.id }} search={{ replace: i.uid }}>Personalizar una unidad</Link></Button>
+                    </div>
                   </div>
                   <div className="flex items-center justify-between">
                     <span className="text-sm font-bold text-primary">

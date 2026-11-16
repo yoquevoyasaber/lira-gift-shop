@@ -21,6 +21,7 @@ import { searchSongs, type Song } from "@/lib/songs";
 import { maskBirthDate, isValidBirthDate } from "@/lib/ecuador";
 import { findProfanity } from "@/lib/profanity";
 import { messageUrlFor } from "@/lib/payment";
+import { Button } from '@/components/ui/button';
 import {
   BACKGROUNDS,
   ID_STYLES,
@@ -36,6 +37,10 @@ import {
 } from "@/lib/customization";
 
 export const Route = createFileRoute("/personalizar/$id")({
+  validateSearch: (s: Record<string, unknown>) => ({
+    qty: Math.min(20, Math.max(1, Math.floor(Number(s.qty) || 1))),
+    replace: typeof s.replace === 'string' ? s.replace : undefined,
+  }),
   loader: ({ params }) => {
     const product = getProduct(params.id);
     if (!product) throw notFound();
@@ -87,7 +92,10 @@ function fileToDataUrl(file: File, max = 640): Promise<string> {
 function Personalizar() {
   const { product } = Route.useLoaderData();
   const navigate = useNavigate();
-  const { add } = useCart();
+  const { add, replaceUnit } = useCart();
+  const { qty, replace } = Route.useSearch();
+  const [unit, setUnit] = useState(1);
+  const [sameDesign, setSameDesign] = useState(qty === 1);
   const analyze = useServerFn(analyzeImage);
   const pixelate = useServerFn(toPixelArt);
 
@@ -95,7 +103,7 @@ function Personalizar() {
   const sweets = SWEET_TIERS[tierForProduct(product)];
 
   const [step, setStep] = useState(0);
-  const [designId] = useState(() =>
+  const [designId, setDesignId] = useState(() =>
     typeof crypto !== "undefined" && crypto.randomUUID ? crypto.randomUUID() : `${Date.now()}`,
   );
   const [d, setD] = useState<DesignData>({
@@ -233,8 +241,16 @@ function Personalizar() {
         data: JSON.parse(JSON.stringify(d)),
       });
       if (error) throw error;
-      add(product.id, 1, designId);
-      void navigate({ to: "/checkout" });
+      if (replace) replaceUnit(replace, designId);
+      else add(product.id, sameDesign ? qty : 1, designId);
+      if (!replace && !sameDesign && unit < qty) {
+        setUnit(v => v + 1);
+        setDesignId(crypto.randomUUID());
+        setD({ ...d, sweets: [], photo: null, front: { name: '', birth: '', gender: '', quality: '' }, song: null, card: { text: '', fontId: 'poppins' }, back: { from: '', to: '' } });
+        setStep(0);
+        setMsg({ kind: 'ok', text: `Primera personalización guardada. Ahora personaliza la unidad ${unit + 1}.` });
+        window.scrollTo({ top: 0 });
+      } else void navigate({ to: "/carrito" });
     } catch (e) {
       setMsg({ kind: "err", text: e instanceof Error ? e.message : "No se pudo guardar tu personalización" });
     } finally {
@@ -280,6 +296,10 @@ function Personalizar() {
       )}
 
       <div className="px-3 pb-4">
+        {qty > 1 && !replace && <div className="mb-4 space-y-2 border-b border-border pb-4">
+          <p className="font-semibold">Unidad {unit} de {qty}</p>
+          <label className="flex items-center gap-2 text-sm"><input type="checkbox" checked={sameDesign} disabled={unit > 1} onChange={e => setSameDesign(e.target.checked)} /> Usar la misma personalización en las {qty} unidades</label>
+        </div>}
         {/* -------- Paso 0: dulces -------- */}
         {step === 0 && (
           <div>
@@ -589,13 +609,13 @@ function Personalizar() {
               </div>
             )}
 
-            <button
+            <Button
               onClick={() => void finish()}
               disabled={saving}
               className="w-full rounded-lg bg-primary py-3 font-semibold text-primary-foreground disabled:opacity-60"
             >
-              {saving ? "Guardando…" : "Finalizar y proceder al pago"}
-            </button>
+              {saving ? "Guardando…" : !sameDesign && unit < qty ? `Guardar y personalizar unidad ${unit + 1}` : "Guardar y ver carrito"}
+            </Button>
           </div>
         )}
 
