@@ -7,9 +7,9 @@
   "theme_color": "#FCE4EC",
   "icons": [
     {
-      "src": "/logo.png",
+      "src": "/lira-logo.jpg",
       "sizes": "512x512",
-      "type": "image/png"
+      "type": "image/jpg"
     }
   ]
 }
