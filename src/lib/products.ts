@@ -1,11 +1,11 @@
-import logo from "@/assets/lira-logo.asset.json";
-import p2 from "@/assets/IMG-20260713-WA0033.jpg.asset.json";
-import p3 from "@/assets/IMG-20260710-WA0011.jpg.asset.json";
-import p4 from "@/assets/IMG-20260703-WA0003_1.jpg.asset.json";
-import p5 from "@/assets/IMG-20260703-WA0004_1.jpg.asset.json";
-import p6 from "@/assets/IMG-20260703-WA0002_1.jpg.asset.json";
-import p7 from "@/assets/IMG-20260628-WA0050_1.jpg.asset.json";
-import p8 from "@/assets/IMG-20260628-WA0049_1.jpg.asset.json";
+import logo from "@/assets/lira-logo-new.jpg.asset.json";
+import p2 from "@/assets/combo1.png.asset.json";
+import p3 from "@/assets/combo2.png.asset.json";
+import p4 from "@/assets/combo3.png.asset.json";
+import p5 from "@/assets/combo4.png.asset.json";
+import p6 from "@/assets/combo5.png.asset.json";
+import p7 from "@/assets/combo6.png.asset.json";
+import p8 from "@/assets/combo7.png.asset.json";
 
 export const LOGO_URL = logo.url;
 

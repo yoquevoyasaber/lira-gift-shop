@@ -118,6 +118,27 @@ export const SONGS: Song[] = [
   { id: "3rWDp9tBPQR9z6U5YyRSK4", title: "Ditto", artist: "NewJeans" },
   { id: "0e7ipj03S05BNilyu5bRzt", title: "rockstar", artist: "LiSA" },
   { id: "4NDoJEUwCoQPXKcfjMLPeT", title: "Idol", artist: "YOASOBI" },
+  // Más canciones
+  { id: "3KkXRkHbMCARz0aVfEt68P", title: "Sunflower", artist: "Post Malone, Swae Lee" },
+  { id: "6habFhsOp2NvshLv26DqMb", title: "Despacito", artist: "Luis Fonsi, Daddy Yankee" },
+  { id: "1rgnBhdG2JDFTbYkYRZAku", title: "Dance Monkey", artist: "Tones And I" },
+  { id: "2Fxmhks0bxGSBdJ92vM42m", title: "bad guy", artist: "Billie Eilish" },
+  { id: "6DCZcSspjsKoFjzjrWoCdn", title: "God's Plan", artist: "Drake" },
+  { id: "5PjdY0CKGZdEuoNab3yDmX", title: "STAY", artist: "The Kid LAROI, Justin Bieber" },
+  { id: "4iJyoBOLtHqaGxP12qzhQI", title: "Peaches", artist: "Justin Bieber" },
+  { id: "7MXVkk9YMctZqd1Srtv4MB", title: "Starboy", artist: "The Weeknd" },
+  { id: "1BxfuPKGuaTgP7aM0Bbdwr", title: "Cruel Summer", artist: "Taylor Swift" },
+  { id: "0V3wPSX9ygBnCm8psDIegu", title: "Anti-Hero", artist: "Taylor Swift" },
+  { id: "1dGr1c8CrMLDpV6mPbImSI", title: "Lover", artist: "Taylor Swift" },
+  { id: "6UFivO2zqqPFPoQYsEMuCc", title: "Tusa", artist: "KAROL G, Nicki Minaj" },
+  { id: "7FbrGaHYVDmfr7KoLIZnQ7", title: "Cupid (Twin Ver.)", artist: "FIFTY FIFTY" },
+  { id: "3rUGC1vUpkDG9CZFHMur1t", title: "greedy", artist: "Tate McRae" },
+  { id: "0yLdNVWF3Srea0uzk55zFn", title: "Flowers", artist: "Miley Cyrus" },
+  { id: "6AI3ezQ4o3HUoP6Dhudph3", title: "Not Like Us", artist: "Kendrick Lamar" },
+  { id: "2qSkIjg1o9h3YT9RAgYN75", title: "Espresso", artist: "Sabrina Carpenter" },
+  { id: "7221xIgOnuakPdLqT0F3nP", title: "I Had Some Help", artist: "Post Malone, Morgan Wallen" },
+  { id: "5XeFesFbtLpXzIVDNQP22n", title: "I Wanna Be Yours", artist: "Arctic Monkeys" },
+  { id: "3AJwUDP919kvQ9QcozQPxg", title: "Yellow", artist: "Coldplay" },
 ];
 
 const norm = (s: string) =>

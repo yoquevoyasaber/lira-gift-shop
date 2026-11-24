@@ -6,7 +6,7 @@ import { requireAdminTest } from './cart-rules';
 
 export const createAdminTestOrder = createServerFn({ method: 'POST' })
   .middleware([requireSupabaseAuth])
-  .inputValidator((value: unknown) => z.object({ items: z.array(z.object({ id: z.string(), qty: z.number().int().min(1).max(20), designId: z.string().uuid().optional() })).min(1).max(40) }).parse(value))
+  .inputValidator((value: unknown) => z.object({ items: z.array(z.object({ id: z.string(), qty: z.number().int().min(1).max(20), designId: z.string().uuid().optional() })).min(1).max(40), fullName: z.string().trim().min(1).max(120), phone: z.string().trim().min(7).max(20), address: z.string().trim().min(3).max(300), notes: z.string().max(500), last4: z.string().regex(/^\d{4}$/) }).parse(value))
   .handler(async ({ data, context }) => {
     const { data: allowed, error: roleError } = await context.supabase.rpc('has_role', { _user_id: context.userId, _role: 'admin' });
     if (roleError) throw roleError;
@@ -19,8 +19,8 @@ export const createAdminTestOrder = createServerFn({ method: 'POST' })
     const { supabaseAdmin } = await import('@/integrations/supabase/client.server');
     const total = items.reduce((s, i) => s + i.qty * i.product.price, 0);
     const { data: order, error } = await supabaseAdmin.from('orders').insert({
-      user_id: context.userId, total, full_name: 'Prueba de administración', phone: '0968718145',
-      address: 'Prueba interna, sin entrega', notes: 'Simulación sin cobro; no contiene datos de tarjeta', status: 'paid_test', payment_method: 'admin_test',
+      user_id: context.userId, total, full_name: data.fullName, phone: data.phone,
+      address: data.address, notes: `${data.notes} [Pago simulado · tarjeta ****${data.last4}]`.trim(), status: 'paid_test', payment_method: 'admin_test',
     }).select('id').single();
     if (error) throw error;
     const { error: itemsError } = await supabaseAdmin.from('order_items').insert(items.map(i => ({
