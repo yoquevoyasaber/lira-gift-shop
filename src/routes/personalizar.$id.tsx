@@ -37,9 +37,9 @@ import {
 } from "@/lib/customization";
 
 export const Route = createFileRoute("/personalizar/$id")({
-  validateSearch: (s: Record<string, unknown>) => ({
+  validateSearch: (s: Record<string, unknown>): { qty?: number; replace?: string } => ({
     qty: Math.min(20, Math.max(1, Math.floor(Number(s.qty) || 1))),
-    replace: typeof s.replace === 'string' ? s.replace : undefined,
+    ...(typeof s.replace === 'string' ? { replace: s.replace } : {}),
   }),
   loader: ({ params }) => {
     const product = getProduct(params.id);
@@ -93,7 +93,8 @@ function Personalizar() {
   const { product } = Route.useLoaderData();
   const navigate = useNavigate();
   const { add, replaceUnit } = useCart();
-  const { qty, replace } = Route.useSearch();
+  const { qty: qtyParam, replace } = Route.useSearch();
+  const qty = qtyParam ?? 1;
   const [unit, setUnit] = useState(1);
   const [sameDesign, setSameDesign] = useState(qty === 1);
   const analyze = useServerFn(analyzeImage);
